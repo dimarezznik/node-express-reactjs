@@ -1,16 +1,17 @@
 const errorHandler = require('../utils/errorHandler')
 const User = require('../models/User')
-const Product = require('../models/Product')
 
 module.exports.updateCart = async function (req, res) {
   try {
-    const product = await User.findOne({email: req.body.email})
-    console.log(product)
-    const cart = await User.findOneAndUpdate(
-        {email: req.body.email},
-        {cart: [...product.cart, req.body.product]},
-        {new: true}
-    )
+    const user = await User.findOne({email: req.body.email})
+    // const product =
+      const cart = await User.findOneAndUpdate(
+          {email: req.body.email},
+          {cart: [...user.cart, req.body.card]},
+          {new: true}
+      )
+
+
 
     res.status(200).json(cart)
   } catch (e) {
@@ -21,11 +22,12 @@ module.exports.updateCart = async function (req, res) {
 
 module.exports.removeCart = async function (req, res) {
   try {
-    const product = await User.findOne({email: req.body.email})
+    console.log(req.body)
+    const user = await User.findOne({email: req.body.email})
 
     const cart = await User.findOneAndUpdate(
         {email: req.body.email},
-        {cart: product.cart.filter(prod => prod.id !== req.body.id)},
+        {cart: user.cart.filter(prod => prod._id !== req.body.id)},
         {new: true}
     )
 
